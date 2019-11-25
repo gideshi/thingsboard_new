@@ -1,0 +1,212 @@
+<!--
+
+    Copyright © 2016-2019 The Thingsboard Authors
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<!-- <strong>123321</strong> -->
+<!-- <span layout-align="center center"
+      style="text-transform: uppercase; display: flex;"
+      class="md-headline tb-absolute-fill"
+      ng-show="vm.noData()">{{vm.noItemsText()}}</span> -->
+<section layout="row" flex style="height: 100%;" flex layout-wrap>
+    <!-- <div layout="column" class="top-background" flex layout-wrap> -->
+        <!-- <md-content flex class="md-padding tb-absolute-fill tb-relation-table tb-data-table" layout="column">
+        <section layout="row">
+            <md-input-container class="md-block" style="width: 200px;">
+                <label translate>relation.direction</label>
+                <md-select ng-model="vm.direction" ng-disabled="$root.loading">
+                    <md-option ng-repeat="direction in vm.types.entitySearchDirection" ng-value="direction">
+                        {{ ('relation.search-direction.' + direction) | translate}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+            <md-input-container class="md-block">
+                <label translate>device.name</label>
+                <input required name="name">               
+            </md-input-container>
+        </section> -->
+        <div layout="column" style="width:100%;" class="md-whiteframe-z1 toolbarsContainer">
+            <md-toolbar style="display:inline-flex;flex-direction:row;" class="md-table-toolbar md-default" ng-show="true">
+                <md-input-container style="width: 100%;">
+                    <label translate>site.name</label>
+                    <md-select ng-model="vm.sitename" ng-disabled="$root.loading" style="width: 100%;">
+                        <md-option ng-repeat="siteName in siteNames" ng-value="siteName">
+                            {{ ('site.site-names.' + siteName) | translate}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+                <md-input-container style="width: 100%;">
+                    <label translate>装置</label>
+                       <md-select class="selWith" required ng-model="vm.equipid" ng-disabled="$root.loading" placeholder="装置">
+                        <md-option ng-repeat="equipment in equipments" ng-value="equipment.equipid">
+                            <!-- <md-option> -->
+                            {{ equipment.name}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+                <md-input-container style="width: 100%;">
+                    <label>状&nbsp;&nbsp;&nbsp;&nbsp;态</label>
+                    <input name="name" ng-model="vm.state">
+                </md-input-container>
+                <md-input-container style="width: 100%;">
+                    <label translate>device.device-type</label>
+                    <md-select ng-model="vm.type_id" ng-disabled="$root.loading" style="width: 100%;">
+                        <md-option ng-repeat="subtype in subTypes" ng-value="subtype.typeId">
+                            {{ subtype.name}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+                <md-input-container style="width: 100%;">
+                    <label translate>datasource.range</label>
+                    <input name="name" ng-model="vm.datafrom">
+                </md-input-container>
+                <span style="margin-top:27px;">~</span>&nbsp;
+                <md-input-container style="width: 100%;">
+                    <input name="name" ng-model="vm.datato">
+                </md-input-container>
+                <md-button
+                   class="md-raised md-primary" style="margin-top:15px;height:10px;" ng-click="vm.searchDevices($event)"><span style="color: #fff;font-size: 16px;">{{ ('action.search') | translate }}</span>
+                </md-button>
+                <md-button
+                        class="md-raised md-primary" style="margin-top:15px;height:10px;" ng-click="vm.initSearchCondition($event)"><span style="color: #fff;font-size: 16px;">{{ ('action.clear') | translate }}</span>
+                </md-button>
+            </md-toolbar>
+            <md-toolbar class="md-table-toolbar md-default" ng-show="true">
+                <div class="md-toolbar-tools">
+                    <!-- <span>添加</span> -->
+                    <md-button ng-disabled="$root.loading" class="md-icon-button" ng-if="vm.addItemActions.length > 0" ng-click="vm.addItemAction.onAction($event)">
+                        <md-icon>add</md-icon>
+                        <md-tooltip md-direction="top">
+                            新增
+                        </md-tooltip>
+                    </md-button>
+                    <md-button class="md-icon-button" ng-if="vm.selectedItems.length === 1" ng-click="vm.editCheckItem($event)">
+                        <md-icon>create</md-icon>
+                        <md-tooltip md-direction="top">
+                            修改
+                        </md-tooltip>
+                    </md-button>
+                    <md-button class="md-icon-button" ng-click="vm.deleteItems($event)">
+                        <md-icon>delete</md-icon>
+                        <md-tooltip md-direction="top">
+                            删除选中
+                        </md-tooltip>
+                    </md-button>
+                    <span style="margin-left: 30%;font-size: 15px;">说明: 修改时单选可用，多选不可用</span>
+                </div>
+            </md-toolbar>
+            <!-- <md-toolbar class="md-table-toolbar md-default" ng-show="true">
+                <div class="md-toolbar-tools">
+                    <md-button class="md-icon-button" aria-label="{{ 'action.search' | translate }}">
+                        <md-icon aria-label="{{ 'action.search' | translate }}" class="material-icons">search</md-icon>
+                        <md-tooltip md-direction="top">
+                            {{ 'action.search' | translate }}
+                        </md-tooltip>
+                    </md-button>
+                    <md-input-container flex>
+                        <label>&nbsp;</label>
+                        <input class="searchInput" placeholder="{{ 'common.enter-search' | translate }}"/>
+                    </md-input-container>
+                    <md-button class="md-icon-button" aria-label="{{ 'action.back' | translate }}" ng-click="vm.exitFilterMode()">
+                        <md-icon aria-label="{{ 'action.close' | translate }}" class="material-icons">close</md-icon>
+                        <md-tooltip md-direction="top">
+                            {{ 'action.close' | translate }}
+                        </md-tooltip>
+                    </md-button>
+                </div>
+            </md-toolbar> -->
+            <!-- <md-toolbar class="md-table-toolbar alternate" ng-show="vm.selectedRelations.length">
+                <div class="md-toolbar-tools">
+                    <span translate
+                          translate-values="{count: vm.selectedRelations.length}"
+                          translate-interpolation="messageformat">relation.selected-relations</span>
+                    <span flex></span>
+                    <md-button class="md-icon-button" ng-click="vm.deleteRelations($event)">
+                        <md-icon>delete</md-icon>
+                        <md-tooltip md-direction="top">
+                            {{ 'action.delete' | translate }}
+                        </md-tooltip>
+                    </md-button>
+                </div>
+            </md-toolbar> -->
+            <md-table-container>
+                <table md-table md-row-select="options.rowSelection" multiple="" ng-model="vm.selectedItems" md-progress="promise">
+                <!-- <table md-table md-row-select="options.rowSelection" multiple="{{options.multiSelect}}" ng-model="vm.selected" md-progress="promise"> -->
+                <!-- <table md-table md-row-select multiple=""> -->
+                    <!-- <thead fix-head md-head md-order="vm.query.order" md-on-reorder="vm.onReorder"> -->
+                    <thead fix-head md-head>
+                    <tr md-row>
+                        <th md-column md-order-by="type"><span translate>sequence.number</span></th>
+                        <th md-column><span translate>operation.name</span></th>
+                        <th md-column md-order-by="deviceName"><span translate>device.name</span></th>
+                        <th md-column md-order-by="site"><span translate>site.name</span></th>
+                        <th md-column md-order-by="state"><span translate>custom.state</span></th>
+                        <th md-column md-order-by="currentData"><span translate>custom.current-data</span></th>
+                        <th md-column md-order-by="nestedEquipment"><span translate>custom.nested-equipment</span></th>
+                        <th md-column md-order-by="deviceType"><span translate>device.device-type</span></th>
+                        <th md-column md-order-by="deviceNumber"><span translate>custom.device-number</span></th>
+                        <th md-column><span>&nbsp</span></th>
+                    </tr>
+                    </thead>
+                    <tbody md-body>
+                    <!-- <tr md-row md-select="relation" md-select-id="relation" md-auto-select ng-repeat="relation in vm.relations"> -->
+                    <tr ng-show="vm.dessert.length" md-row md-select="device"  md-select-id="id.id"
+                        ng-click="vm.logItem($event, device)" me-auto-select="false" ng-repeat="device in vm.dessert">
+                        <td md-cell>{{ $index + 1}}</td>
+                        <td md-cell class="md-toolbar-tools">
+                            <md-button class="md-icon-button" style="margin: 0 0;" ng-click="vm.editItemAction.onAction($event, device)">
+                                <md-icon>create</md-icon>
+                                <md-tooltip md-direction="top">
+                                    修改
+                                </md-tooltip>
+                            </md-button>
+                            <md-button class="md-icon-button" style="margin: 0 0;" ng-click="vm.infoItem($event, device)">
+                                <md-icon>find_in_page</md-icon>
+                                <md-tooltip md-direction="top">
+                                    详情
+                                </md-tooltip>
+                            </md-button>
+                            <md-button class="md-icon-button" style="margin: 0 0;" ng-click="vm.openDashboard($event, device)">
+                                <md-icon>library_books</md-icon>
+                                <md-tooltip md-direction="top">
+                                    数据
+                                </md-tooltip>
+                            </md-button>
+                            <md-button class="md-icon-button" style="margin: 0 0;" ng-click="vm.deleteItem($event, device )">
+                                <md-icon>delete</md-icon>
+                                <md-tooltip md-direction="top">
+                                    删除
+                                </md-tooltip>
+                            </md-button>
+                        </td>
+                        <td md-cell>{{ device.name}}</td>
+                        <td md-cell>{{ device.sitename}}</td>
+                        <td md-cell>{{ device.state}}</td>
+                        <td md-cell>{{ device.currentData}}</td>
+                        <td md-cell>{{ device.equipname}}</td>
+                        <td md-cell>{{ device.type_name}}</td>
+                        <td md-cell>{{ device.spec}}</td>
+                        <td md-cell><span>&nbsp</span></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </md-table-container>
+            <md-table-pagination md-limit="query.limit" md-limit-options="[5, 10, 15]"
+                                 md-page="query.page" md-total="{{ desserts.count }}"
+                                 md-on-paginate="vm.onPaginate" md-page-select>
+            </md-table-pagination>
+        </div>
+    <!-- </md-content> -->
+</section>

@@ -1,0 +1,16 @@
+spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation: "true"
+spring:
+  data:
+    jpa:
+      repositories:
+        enabled: "true"
+  jpa:
+    hibernate:
+      ddl-auto: "none"
+    database-platform: "${SPRING_JPA_DATABASE_PLATFORM:org.hibernate.dialect.PostgreSQLDialect}"
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: "${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/demo}"
+    username: "${SPRING_DATASOURCE_USERNAME:postgres}"
+    password: "${SPRING_DATASOURCE_PASSWORD:abc123}"
+
