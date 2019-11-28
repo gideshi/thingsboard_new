@@ -63,9 +63,8 @@
     </div>
 	<fieldset ng-disabled="$root.loading || !isEdit">
 		<md-input-container class="md-block">
-			<label translate>{{deviceId}}</label>
-
-			<!--<input required name="name" ng-model="device.name">-->
+			<label translate>device.name</label>
+			<input required name="name" ng-model="device.name">
 		</md-input-container>
         <!-- <tb-entity-subtype-autocomplete
                 ng-disabled="$root.loading || !isEdit"
@@ -99,10 +98,10 @@
         </div> 
       </md-input-container>
       <md-input-container class="md-block">
-        <label translate>device.spec</label>
+        <label translate>device.number</label>
         <input required name="number" ng-model="device.spec">
         <div ng-messages="theForm.number.$error">
-              <div translate ng-message="required">device.spec-required</div>
+              <div translate ng-message="required">device.number-required</div>
           </div>        
       </md-input-container>
         <!-- <md-input-container class="md-block">
